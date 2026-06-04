@@ -7,6 +7,7 @@ import org.jetbrains.annotations.Nullable;
 
 import xyz.refinedev.practice.api.kit.IKit;
 import xyz.refinedev.practice.api.profile.IProfile;
+import xyz.refinedev.practice.api.arena.IArena;
 
 import java.util.List;
 import java.util.UUID;
@@ -86,6 +87,21 @@ public interface QueueAPI {
      * @return True if the player was successfully queued, false otherwise.
      */
     boolean joinQueue(@NotNull Player target, @NotNull IKit kit, @NotNull QueueType type);
+
+    /**
+     * Force a player into a queue while preferring a specific arena/map when the match is formed.
+     * Implementations that do not support arena selection can keep their old behavior by using
+     * the default method.
+     *
+     * @param target The player to be queued.
+     * @param kit    The kit associated with the queue.
+     * @param type   The type of queue.
+     * @param arena  The arena/map to prefer for the queued match.
+     * @return True if the player was successfully queued, false otherwise.
+     */
+    default boolean joinQueue(@NotNull Player target, @NotNull IKit kit, @NotNull QueueType type, @Nullable IArena arena) {
+        return this.joinQueue(target, kit, type);
+    }
 
     /**
      * Force a player to leave their current queue, if they are in one.

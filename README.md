@@ -68,7 +68,15 @@ matchAPI.terminateMatch(currentMatch);
 
 IMatch ranked = matchAPI.createSoloRankedMatch(playerA, playerB, kit);
 IMatch unranked = matchAPI.createSoloUnrankedMatch(playerA, playerB, kit);
+IMatch directSolo = matchAPI.createSoloMatch(playerA, playerB, kit, false);
 IMatch teamMatch = matchAPI.createTeamMatch(teamAPlayers, teamBPlayers, kit, true);
+IMatch partyFfa = matchAPI.createPartyFFAMatch(partyPlayers, kit);
+IMatch partySplit = matchAPI.createPartySplitMatch(partyPlayers, kit);
+IMatch partyVsParty = matchAPI.createPartyVsPartyMatch(partyAPlayers, partyBPlayers, kit, false);
+
+matchAPI.addSpectator(currentMatch, spectator, playerA);
+matchAPI.removeSpectator(currentMatch, spectator);
+IMatch spectated = matchAPI.getMatchBySpectator(spectator);
 
 matchAPI.handleRespawn(currentMatch, player);
 int fighting = matchAPI.getFightingCount();
@@ -95,6 +103,7 @@ String lasted = match.getLasted();
 import xyz.refinedev.practice.api.party.IParty;
 import xyz.refinedev.practice.api.party.IPartySettings;
 import xyz.refinedev.practice.api.party.PartyAPI;
+import xyz.refinedev.practice.api.match.IMatch;
 
 PartyAPI partyAPI = api.getPartyAPI();
 
@@ -107,6 +116,11 @@ partyAPI.leave(member);
 partyAPI.disband(newLeader);
 
 boolean canQueueRanked = partyAPI.canQueue(party, true);
+
+IMatch ffaMatch = partyAPI.startFFA(party, kit);
+IMatch splitMatch = partyAPI.startSplit(party, kit);
+IMatch partyMatch = partyAPI.startMatch(partyA, partyB, kit, false);
+partyAPI.spectatePartyMatch(spectator, party);
 
 IParty currentParty = partyAPI.getParty(player);
 IPartySettings settings = currentParty.getSettings();
