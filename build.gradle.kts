@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "xyz.refinedev.practice"
-version = "1.0.3"
+version = "1.0.5"
 
 repositories {
     mavenCentral()
@@ -59,7 +59,7 @@ publishing {
 
          maven {
              name = "refine-public"
-             url = uri("https://maven.refinedev.xyz/public-repo")
+             url = uri("https://maven.refinedev.org/public-repo")
              credentials {
                  username = findProperty("mavenUsername") as String? ?: ""
                  password = findProperty("mavenPassword") as String? ?: ""

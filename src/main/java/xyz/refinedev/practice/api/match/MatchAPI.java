@@ -10,6 +10,7 @@ import xyz.refinedev.practice.api.match.enums.MatchEndReason;
 import xyz.refinedev.practice.api.match.meta.IPostMatchInventory;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
@@ -135,6 +136,17 @@ public interface MatchAPI {
     @Nullable IMatch getMatchByPlayer(Player player);
 
     /**
+     * Get the match a player is currently spectating.
+     *
+     * @param spectator {@link Player}
+     * @return {@link IMatch} or null if not spectating a match
+     */
+    @Nullable
+    default IMatch getMatchBySpectator(Player spectator) {
+        return null;
+    }
+
+    /**
      * Handles a match respawn using Bolt's normal respawn flow.
      *
      * @param match  the match
@@ -193,6 +205,23 @@ public interface MatchAPI {
     @Nullable IMatch createSoloUnrankedMatch(Player playerA, Player playerB, IKit kit);
 
     /**
+     * Creates and starts a solo match between two players using the specified kit.
+     * This is an additive generic variant of the ranked/unranked solo helpers.
+     *
+     * @param playerA The first player
+     * @param playerB The second player
+     * @param kit     The kit to use for the match
+     * @param ranked  Whether the match is ranked
+     * @return The created {@link IMatch}, or null if the match could not be created
+     */
+    @Nullable
+    default IMatch createSoloMatch(Player playerA, Player playerB, IKit kit, boolean ranked) {
+        return ranked
+                ? this.createSoloRankedMatch(playerA, playerB, kit)
+                : this.createSoloUnrankedMatch(playerA, playerB, kit);
+    }
+
+    /**
      * Creates and starts a team match between two teams using the specified kit.
      * An arena will be automatically selected. If no arena is available, null is returned.
      *
@@ -203,4 +232,65 @@ public interface MatchAPI {
      * @return The created {@link IMatch}, or null if the match could not be created
      */
     @Nullable IMatch createTeamMatch(java.util.List<Player> teamA, java.util.List<Player> teamB, IKit kit, boolean ranked);
+
+    /**
+     * Creates and starts a party FFA match with all supplied players.
+     *
+     * @param players Players in the FFA
+     * @param kit     The kit to use
+     * @return The created {@link IMatch}, or null if the match could not be created
+     */
+    @Nullable
+    default IMatch createPartyFFAMatch(List<Player> players, IKit kit) {
+        return null;
+    }
+
+    /**
+     * Creates and starts a party split match by splitting the supplied players into two teams.
+     *
+     * @param players Players to split
+     * @param kit     The kit to use
+     * @return The created {@link IMatch}, or null if the match could not be created
+     */
+    @Nullable
+    default IMatch createPartySplitMatch(List<Player> players, IKit kit) {
+        return null;
+    }
+
+    /**
+     * Creates and starts a party-vs-party team match.
+     *
+     * @param partyA The first party's players
+     * @param partyB The second party's players
+     * @param kit    The kit to use
+     * @param ranked Whether the match is ranked
+     * @return The created {@link IMatch}, or null if the match could not be created
+     */
+    @Nullable
+    default IMatch createPartyVsPartyMatch(List<Player> partyA, List<Player> partyB, IKit kit, boolean ranked) {
+        return this.createTeamMatch(partyA, partyB, kit, ranked);
+    }
+
+    /**
+     * Adds a spectator to a match.
+     *
+     * @param match     The match to spectate
+     * @param spectator The player joining as spectator
+     * @param target    Optional target to teleport near
+     * @return true if the spectator was added
+     */
+    default boolean addSpectator(IMatch match, Player spectator, @Nullable Player target) {
+        return false;
+    }
+
+    /**
+     * Removes a spectator from a match.
+     *
+     * @param match     The match being spectated
+     * @param spectator The spectator to remove
+     * @return true if the spectator was removed
+     */
+    default boolean removeSpectator(IMatch match, Player spectator) {
+        return false;
+    }
 }

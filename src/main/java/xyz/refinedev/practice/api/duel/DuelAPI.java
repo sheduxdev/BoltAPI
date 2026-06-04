@@ -2,6 +2,7 @@ package xyz.refinedev.practice.api.duel;
 
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.Nullable;
+import xyz.refinedev.practice.api.arena.IArena;
 import xyz.refinedev.practice.api.kit.IKit;
 import xyz.refinedev.practice.api.party.IParty;
 
@@ -17,7 +18,17 @@ public interface DuelAPI {
     IProfileDuelRequest request(Player sender, Player target, IKit kit);
 
     @Nullable
+    default IProfileDuelRequest request(Player sender, Player target, IKit kit, IArena arena) {
+        return this.request(sender, target, kit);
+    }
+
+    @Nullable
     IPartyDuelRequest request(IParty sender, IParty target, IKit kit);
+
+    @Nullable
+    default IPartyDuelRequest request(IParty sender, IParty target, IKit kit, IArena arena) {
+        return this.request(sender, target, kit);
+    }
 
     @Nullable
     IProfileDuelRequest getRequest(Player sender, Player target);

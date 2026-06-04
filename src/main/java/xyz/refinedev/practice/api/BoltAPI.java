@@ -6,6 +6,7 @@ import xyz.refinedev.api.knockback.IKnockbackHandler;
 import xyz.refinedev.api.knockback.KnockbackHook;
 
 import xyz.refinedev.practice.api.kit.KitAPI;
+import xyz.refinedev.practice.api.arena.ArenaAPI;
 import xyz.refinedev.practice.api.leaderboard.LeaderboardAPI;
 import xyz.refinedev.practice.api.match.MatchAPI;
 import xyz.refinedev.practice.api.duel.DuelAPI;
@@ -40,6 +41,7 @@ public enum BoltAPI {
     private PartyAPI partyAPI;
     private TournamentAPI tournamentAPI;
     private DuelAPI duelAPI;
+    private ArenaAPI arenaAPI;
 
     /**
      * Bolt's knockback API to allow custom knockback implementations
@@ -136,5 +138,14 @@ public enum BoltAPI {
 
     public void setDuelAPI(DuelAPI duelAPI) {
         this.duelAPI = duelAPI;
+    }
+
+    public ArenaAPI getArenaAPI() {
+        Preconditions.checkNotNull(arenaAPI, "ArenaAPI has not been initialized yet.");
+        return arenaAPI;
+    }
+
+    public void setArenaAPI(ArenaAPI arenaAPI) {
+        this.arenaAPI = arenaAPI;
     }
 }
