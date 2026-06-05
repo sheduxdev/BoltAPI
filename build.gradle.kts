@@ -11,7 +11,7 @@ repositories {
     mavenCentral()
     mavenLocal()
 
-    maven("https://maven.refinedev.xyz/public-repo")
+    maven("https://maven.refinedev.org/public-repo")
 }
 
 java {
