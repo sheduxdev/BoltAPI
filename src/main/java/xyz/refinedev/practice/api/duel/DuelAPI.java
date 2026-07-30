@@ -30,6 +30,21 @@ public interface DuelAPI {
         return this.request(sender, target, kit);
     }
 
+    /**
+     * Silent variants suppress Bolt's own request feedback so the calling plugin can send its own.
+     * Default to the normal behaviour; the Bolt implementation overrides them to run silently. Adding
+     * them as defaults keeps existing API consumers binary-compatible.
+     */
+    @Nullable
+    default IProfileDuelRequest requestSilent(Player sender, Player target, IKit kit) {
+        return this.request(sender, target, kit);
+    }
+
+    @Nullable
+    default IPartyDuelRequest requestSilent(IParty sender, IParty target, IKit kit) {
+        return this.request(sender, target, kit);
+    }
+
     @Nullable
     IProfileDuelRequest getRequest(Player sender, Player target);
 

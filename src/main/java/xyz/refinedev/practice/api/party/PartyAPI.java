@@ -13,11 +13,43 @@ import java.util.UUID;
  */
 public interface PartyAPI {
 
+    /**
+     * Looks a party up by its own uniqueId. This is <b>not</b> a player lookup —
+     * for "which party is this player in" use {@link #getPartyByMember(UUID)}.
+     *
+     * @param uuid the <b>party</b> uniqueId
+     */
     @Nullable
     IParty getParty(UUID uuid);
 
     @Nullable
     IParty getParty(Player player);
+
+    /**
+     * Finds the party the given player is currently a member of.
+     * Works for offline members too, unlike {@link #getParty(Player)}.
+     *
+     * @param memberId the <b>player</b> uniqueId
+     * @return the party containing this player, or {@code null}
+     */
+    @Nullable
+    default IParty getPartyByMember(UUID memberId) {
+        return null;
+    }
+
+    /**
+     * Installs a feedback hook that owns party chat messaging (invite/join/leave/kick/promote/
+     * disband/create). Bolt asks the hook first and stays silent for events the hook handles.
+     * Pass {@code null} to clear. Default is a no-op so consumers without Bolt's implementation
+     * are unaffected. Additive since 1.0.8.
+     */
+    default void setFeedbackHook(PartyFeedbackHook hook) {
+    }
+
+    @Nullable
+    default PartyFeedbackHook getFeedbackHook() {
+        return null;
+    }
 
     Collection<IParty> getParties();
 
@@ -30,6 +62,72 @@ public interface PartyAPI {
 
     default boolean invite(Player sender, Player target) {
         return false;
+    }
+
+    /**
+     * Silent variants suppress Bolt's own chat feedback so the calling plugin can send its own
+     * messages. These default to the normal (non-silent) behaviour; the Bolt implementation overrides
+     * them to actually run silently. Adding them as defaults keeps existing API consumers
+     * binary-compatible — old clients keep calling the normal methods and still hear Bolt's messages.
+     */
+    default boolean inviteSilent(Player sender, Player target) {
+        return invite(sender, target);
+    }
+
+    default boolean joinSilent(Player player, IParty party) {
+        return join(player, party);
+    }
+
+    default boolean leaveSilent(Player player) {
+        return leave(player);
+    }
+
+    default boolean kickSilent(Player sender, Player target) {
+        return kick(sender, target);
+    }
+
+    default boolean promoteSilent(Player sender, Player target) {
+        return promote(sender, target);
+    }
+
+    default boolean disbandSilent(Player leader) {
+        return disband(leader);
+    }
+
+    @Nullable
+    default IParty createPartySilent(Player leader) {
+        return createParty(leader);
+    }
+
+    /**
+     * Reason-returning, always-silent variants. They never send chat feedback; the caller owns
+     * all player-facing messaging. Defaults delegate to the silent boolean methods and can only
+     * distinguish success from {@link PartyOpResult#UNKNOWN_FAILURE}; the Bolt implementation
+     * overrides them with precise reasons. Additive since 1.0.7 — existing consumers are
+     * unaffected.
+     */
+    default PartyOpResult tryInvite(Player sender, Player target) {
+        return inviteSilent(sender, target) ? PartyOpResult.SUCCESS : PartyOpResult.UNKNOWN_FAILURE;
+    }
+
+    default PartyOpResult tryJoin(Player player, IParty party) {
+        return joinSilent(player, party) ? PartyOpResult.SUCCESS : PartyOpResult.UNKNOWN_FAILURE;
+    }
+
+    default PartyOpResult tryLeave(Player player) {
+        return leaveSilent(player) ? PartyOpResult.SUCCESS : PartyOpResult.UNKNOWN_FAILURE;
+    }
+
+    default PartyOpResult tryKick(Player sender, Player target) {
+        return kickSilent(sender, target) ? PartyOpResult.SUCCESS : PartyOpResult.UNKNOWN_FAILURE;
+    }
+
+    default PartyOpResult tryPromote(Player sender, Player target) {
+        return promoteSilent(sender, target) ? PartyOpResult.SUCCESS : PartyOpResult.UNKNOWN_FAILURE;
+    }
+
+    default PartyOpResult tryDisband(Player leader) {
+        return disbandSilent(leader) ? PartyOpResult.SUCCESS : PartyOpResult.UNKNOWN_FAILURE;
     }
 
     default boolean isInvited(IParty party, Player target) {

@@ -7,12 +7,12 @@ Bolt's public API for profiles, queues, kits, matches, parties, tournaments, due
 repositories {
     maven {
         name = "refine-public"
-        url = uri("https://maven.refinedev.xyz/public-repo/")
+        url = uri("https://maven.refinedev.org/public-repo/")
     }
 }
 
 dependencies {
-    compileOnly("xyz.refinedev.practice:BoltAPI:VERSION")
+    compileOnly("xyz.refinedev.practice:BoltAPI:1.0.6")
 }
 ```
 
@@ -21,7 +21,7 @@ dependencies {
 <repositories>
     <repository>
         <id>refine-public</id>
-        <url>https://maven.refinedev.xyz/public-repo/</url>
+        <url>https://maven.refinedev.org/public-repo/</url>
     </repository>
 </repositories>
 
@@ -29,7 +29,7 @@ dependencies {
     <dependency>
         <groupId>xyz.refinedev.practice</groupId>
         <artifactId>BoltAPI</artifactId>
-        <version>VERSION</version>
+        <version>1.0.6</version>
         <scope>provided</scope>
     </dependency>
 </dependencies>
@@ -201,6 +201,7 @@ List<IParty> parties = tournament.getPartyParticipants();
 Player winningPlayer = tournament.getWinningPlayer();
 IParty winningParty = tournament.getWinningParty();
 Object winningSubject = tournament.getWinningSubject();
+boolean fighting = tournament.hasStarted(); // true only while the tournament is actively fighting
 ```
 
 ## Other APIs

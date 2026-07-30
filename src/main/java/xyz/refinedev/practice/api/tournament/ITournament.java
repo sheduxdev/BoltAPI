@@ -69,6 +69,6 @@ public interface ITournament {
     }
 
     default boolean hasStarted() {
-        return this.getState() != TournamentState.WAITING && this.getState() != TournamentState.STARTING;
+        return this.getState() == TournamentState.FIGHTING;
     }
 }
