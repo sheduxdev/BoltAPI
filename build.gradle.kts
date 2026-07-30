@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "xyz.refinedev.practice"
-version = "1.0.6"
+version = "1.0.8"
 
 repositories {
     mavenCentral()
@@ -58,11 +58,13 @@ publishing {
         mavenLocal()
 
          maven {
-             name = "refine-public"
+             name = "shedux"
+             // Root URL PUT'u repo yöneticisi reddediyor (403); deploy hedefi /public-repo.
              url = uri("https://maven.refinedev.org/public-repo")
+             // Creds gradle.properties'ten (git-ignored) / env'den okunur — HARDCODED DEĞİL.
              credentials {
-                 username = findProperty("mavenUsername") as String? ?: ""
-                 password = findProperty("mavenPassword") as String? ?: ""
+                 username = findProperty("mavenUsername") as String? ?: System.getenv("MAVEN_USERNAME") ?: ""
+                 password = findProperty("mavenPassword") as String? ?: System.getenv("MAVEN_PASSWORD") ?: ""
              }
          }
     }
