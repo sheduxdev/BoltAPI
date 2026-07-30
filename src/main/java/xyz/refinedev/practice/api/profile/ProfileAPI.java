@@ -2,10 +2,6 @@ package xyz.refinedev.practice.api.profile;
 
 import org.bukkit.entity.Player;
 
-import xyz.refinedev.practice.api.profile.history.IProfileHistory;
-
-import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
@@ -54,22 +50,6 @@ public interface ProfileAPI {
      * @param async   whether to save the profile asynchronously or not
      */
     void saveProfile(IProfile profile, boolean async);
-
-    /**
-     * Get the profile histories of a player
-     *
-     * @param profile {@link IProfile} to get the histories of
-     * @return        {@link List} of {@link IProfileHistory} of the player
-     */
-    CompletableFuture<List<IProfileHistory>> getProfileHistories(IProfile profile);
-
-    /**
-     * Fetch a profile history by its ID
-     *
-     * @param id {@link String} of the profile history to fetch
-     * @return   {@link CompletableFuture} of an {@link Optional} of the {@link IProfileHistory}
-     */
-    CompletableFuture<Optional<IProfileHistory>> fetchProfileHistory(String id);
 
     /**
      * Refresh the hotbar of a player based on their profile state.

@@ -1,17 +1,20 @@
 plugins {
     id("java-library")
-    id("io.freefair.lombok") version "8.12.1"
+    alias(libs.plugins.lombok)
     id("maven-publish")
 }
 
 group = "xyz.refinedev.practice"
-version = "1.0.8"
+version = "1.1.0"
 
 repositories {
     mavenCentral()
     mavenLocal()
 
     maven("https://maven.refinedev.org/public-repo")
+    maven("https://repo.codemc.io/repository/maven-releases/")
+    maven("https://repo.codemc.io/repository/maven-public/")
+    maven("https://repo.codemc.io/repository/nms/")
 }
 
 java {
@@ -36,12 +39,22 @@ tasks.named<Jar>("javadocJar") {
 }
 
 dependencies {
-    compileOnly("io.papermc.paper:paper-api:1.8.8-R0.1-SNAPSHOT")
-    compileOnly("org.jetbrains:annotations:24.0.1")
-    compileOnlyApi("com.github.cryptomorin:XSeries:12.1.0")
-    compileOnlyApi("xyz.refinedev.api:SkinAPI:1.1")
-    compileOnlyApi("xyz.refinedev.api:KnockbackAPI:1.0.0")
+    compileOnly(libs.paper.api.legacy) {
+        exclude("com.google.code.gson", "gson")
+    }
+
+    compileOnlyApi(libs.packetevents.spigot) {
+        exclude(group = "com.google.code.gson", module = "gson")
+        exclude(group = "org.jetbrains", module = "annotations")
+        exclude(group = "com.github.retrooper.packetevents", module = "netty-common")
+    }
+
+    compileOnly(libs.jetbrains.annotations)
+    compileOnlyApi(libs.fastutil)
+    compileOnlyApi(libs.xseries)
+    compileOnlyApi(libs.knockback.api)
 }
+
 
 publishing {
     publications {
@@ -58,13 +71,11 @@ publishing {
         mavenLocal()
 
          maven {
-             name = "shedux"
-             // Root URL PUT'u repo yöneticisi reddediyor (403); deploy hedefi /public-repo.
+             name = "refine-public"
              url = uri("https://maven.refinedev.org/public-repo")
-             // Creds gradle.properties'ten (git-ignored) / env'den okunur — HARDCODED DEĞİL.
              credentials {
-                 username = findProperty("mavenUsername") as String? ?: System.getenv("MAVEN_USERNAME") ?: ""
-                 password = findProperty("mavenPassword") as String? ?: System.getenv("MAVEN_PASSWORD") ?: ""
+                 username = findProperty("mavenUsername") as String? ?: ""
+                 password = findProperty("mavenPassword") as String? ?: ""
              }
          }
     }

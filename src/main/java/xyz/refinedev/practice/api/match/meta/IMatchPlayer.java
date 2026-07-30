@@ -4,8 +4,8 @@ import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.Nullable;
-import xyz.refinedev.api.skin.data.CachedSkin;
 import xyz.refinedev.practice.api.kit.IKitInventory;
+import xyz.refinedev.practice.api.profile.skin.IProfileSkin;
 
 import java.util.List;
 import java.util.UUID;
@@ -44,9 +44,9 @@ public interface IMatchPlayer {
      * This skin is used for bots and spectators
      * to see the correct skin of the player
      *
-     * @return CachedSkin of the player
+     * @return Skin of the player
      */
-    CachedSkin getSkin();
+    IProfileSkin getSkin();
 
     /**
      * The entities launched or thrown by this player.

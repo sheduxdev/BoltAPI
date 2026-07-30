@@ -1,9 +1,13 @@
 package xyz.refinedev.practice.api.profile;
 
 import org.bukkit.entity.Player;
+
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
 import xyz.refinedev.practice.api.profile.parkour.IProfileParkour;
 import xyz.refinedev.practice.api.profile.settings.IProfileSettings;
+import xyz.refinedev.practice.api.profile.skin.IProfileSkin;
 
 import java.util.List;
 import java.util.UUID;
@@ -28,11 +32,39 @@ public interface IProfile {
     UUID getUniqueId();
 
     /**
-     * Get the current state of the profile
+     * Get the name of the profile
      *
-     * @return {@link ProfileState} of the profile
+     * @return {@link String} name of the profile
      */
-    ProfileState getState();
+    @NotNull String getName();
+
+    /**
+     * Get the real name of the profile
+     *
+     * @return {@link String} real name of the profile
+     */
+    @NotNull String getRealName();
+
+    /**
+     * Get the colored name of the profile
+     *
+     * @return {@link String} colored name of the profile
+     */
+    @NotNull String getColoredName();
+
+    /**
+     * Get the skin of the profile
+     *
+     * @return {@link IProfileSkin} of the profile
+     */
+    @NotNull IProfileSkin getSkin();
+
+    /**
+     * Replaces the cached skin for this profile.
+     *
+     * @param skin the cached skin to retain
+     */
+    void setSkin(@NotNull final IProfileSkin skin);
 
     /**
      * Get the settings of the profile
@@ -49,13 +81,25 @@ public interface IProfile {
     IProfileParkour getParkour();
 
     /**
-     * Returns a list of profile history IDs that can be
-     * used to fetch the actual Profile History data from the database.
-     * These are shared between winner and loser.
+     * Get the Bukkit Player object of the profile
      *
-     * @return List of profile history IDs
+     * @return {@link Player} of the profile
      */
-    List<String> getMatchHistory();
+    @NotNull Player getPlayer();
+
+    /**
+     * Get the current state of the profile
+     *
+     * @return {@link ProfileState} of the profile
+     */
+    @NotNull ProfileState getState();
+
+    /**
+     * Set the current state of the profile
+     *
+     * @param state New {@link ProfileState} of the profile
+     */
+    void setState(@NotNull ProfileState state);
 
     /**
      * Get the current match ID the profile is in, null if not in a match

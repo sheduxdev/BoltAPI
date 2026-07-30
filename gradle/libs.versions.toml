@@ -1,0 +1,37 @@
+[versions]
+lombokPlugin = "8.12.1"
+
+# Platform / server
+paperLegacy = "1.8.8-R0.1-SNAPSHOT"
+
+# Common libraries
+jetbrainsAnnotations = "24.0.1"
+fastutil = "8.5.12"
+
+# Refine APIs
+knockbackApi = "1.0.0"
+
+# External APIs
+packetevents = "2.11.1"
+xseries = "13.6.0"
+worldedit = "6.0.0"
+
+[libraries]
+# Platform
+paper-api-legacy = { module = "io.papermc.paper:paper-api", version.ref = "paperLegacy" }
+paper-server-legacy = { module = "io.papermc.paper:paper-server", version.ref = "paperLegacy" }
+
+# Common
+jetbrains-annotations = { module = "org.jetbrains:annotations", version.ref = "jetbrainsAnnotations" }
+fastutil = { module = "it.unimi.dsi:fastutil", version.ref = "fastutil" }
+
+# Refine APIs
+knockback-api = { module = "xyz.refinedev.api:KnockbackAPI", version.ref = "knockbackApi" }
+
+# External APIs
+packetevents-spigot = { module = "com.github.retrooper:packetevents-spigot", version.ref = "packetevents" }
+xseries = { module = "com.github.cryptomorin:XSeries", version.ref = "xseries" }
+worldedit = { module = "com.sk89q.worldedit:WorldEdit", version.ref = "worldedit" }
+
+[plugins]
+lombok = { id = "io.freefair.lombok", version.ref = "lombokPlugin" }
