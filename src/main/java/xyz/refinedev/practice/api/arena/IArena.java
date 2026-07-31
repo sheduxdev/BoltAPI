@@ -445,6 +445,56 @@ public interface IArena {
     void setSchematic(@Nullable IArenaSchematic schematic);
 
     /**
+     * Get the arena's extra protected zones. These are hand-drawn no-build/no-break
+     * cuboids stacked on top of whatever the arena's own portal and spawn protection
+     * radii already cover. Unlike the single portal special-cuboid, an arena can have
+     * any number of these.
+     *
+     * @return {@link List} an immutable view of this arena's protected zones
+     */
+    List<ICuboid> getProtectedZones();
+
+    /**
+     * Add a protected zone to this arena.
+     *
+     * @param zone {@link ICuboid} the zone to add
+     */
+    void addProtectedZone(ICuboid zone);
+
+    /**
+     * Remove a protected zone from this arena by index.
+     *
+     * @param index {@link Integer} the zero-based index of the zone
+     * @return      {@link Boolean} true if a zone existed at that index and was removed
+     */
+    boolean removeProtectedZone(int index);
+
+    /**
+     * Remove every protected zone from this arena.
+     */
+    void clearProtectedZones();
+
+    /**
+     * Check whether a location falls inside any of this arena's protected zones.
+     *
+     * @param location {@link Location} the location to test
+     * @return         {@link Boolean} true if the location is inside a protected zone
+     */
+    default boolean isProtected(Location location) {
+        if (location == null) {
+            return false;
+        }
+
+        for ( ICuboid zone : this.getProtectedZones() ) {
+            if (zone != null && zone.contains(location)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
      * Checks if arena type is standard
      *
      * @return {@link Boolean}
