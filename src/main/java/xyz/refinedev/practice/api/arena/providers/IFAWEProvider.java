@@ -45,7 +45,7 @@ public interface IFAWEProvider {
      * @param schematic {@link IArenaSchematic schematic} to paste
      * @param pasteAt   {@link Location} The minimum point of the cuboid to paste at
      */
-    CompletableFuture<Void> pasteSchematic(@NotNull IArena arena, @NotNull IArenaSchematic schematic, @NotNull Location pasteAt);
+    CompletableFuture<Void> pasteSchematic(@NotNull IArena arena, @NotNull IArenaSchematic schematic, @NotNull Location pasteAt, boolean ignoreAir);
 
     /**
      * Paste a schematic at the given location synchronously.
@@ -53,7 +53,7 @@ public interface IFAWEProvider {
      * @param arenaSchematic {@link IArenaSchematic schematic} to paste
      * @param pasteAt        {@link Location} The minimum point of the cuboid to paste at
      */
-    void pasteSchematicSync(@NotNull IArenaSchematic arenaSchematic, @NotNull Location pasteAt) throws Exception;
+    void pasteSchematicSync(@NotNull IArenaSchematic arenaSchematic, @NotNull Location pasteAt, boolean ignoreAir) throws Exception;
 
     /**
      * Clear blocks in the given bounds.
