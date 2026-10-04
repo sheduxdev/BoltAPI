@@ -32,6 +32,10 @@ public enum BoltAPI {
 
     INSTANCE;
 
+    private xyz.refinedev.practice.api.bot.BotAPI botAPI;
+    /** Null when the running Bolt version does not support training. */
+    public xyz.refinedev.practice.api.bot.BotAPI getBotAPI() { return botAPI; }
+    public void setBotAPI(xyz.refinedev.practice.api.bot.BotAPI botAPI) { this.botAPI = botAPI; }
     private ProfileAPI profileAPI;
     private QueueAPI queueAPI;
     private KitAPI kitAPI;

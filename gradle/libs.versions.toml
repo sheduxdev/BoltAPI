@@ -12,7 +12,7 @@ fastutil = "8.5.12"
 knockbackApi = "1.0.0"
 
 # External APIs
-packetevents = "2.11.1"
+packetevents = "2.13.0"
 xseries = "13.6.0"
 worldedit = "6.0.0"
 

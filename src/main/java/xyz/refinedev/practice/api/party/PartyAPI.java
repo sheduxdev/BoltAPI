@@ -12,6 +12,14 @@ import java.util.UUID;
  * Public access to Bolt's party system.
  */
 public interface PartyAPI {
+    /** Additive opt-in. False means this Bolt cannot safely support an external owner. */
+    default boolean setExternalProvider(ExternalPartyProvider provider) { return false; }
+    default ExternalPartyProvider getExternalProvider() { return null; }
+    /** Complete authoritative snapshot, applied on the server thread, without membership events. */
+    default void syncExternalParties(Collection<ExternalPartySnapshot> parties) { }
+    /** Local activity guard for the network owner; never mutates membership. */
+    default boolean isExternalPartyBusy(UUID memberId) { return false; }
+
 
     /**
      * Looks a party up by its own uniqueId. This is <b>not</b> a player lookup —
