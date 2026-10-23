@@ -63,5 +63,41 @@ public interface StatsAPI {
      */
     CompletableFuture<Integer> recalculateGlobalElo();
 
+    /**
+     * The statistics to <b>show</b> for an online player: a detached, generated profile while a
+     * {@link xyz.refinedev.practice.api.stats.view.StatsViewProvider} masks the player (e.g. disguised),
+     * otherwise the same instance as {@link #getStatsProfile(Player)}. Never modify or save the result.
+     *
+     * @param player {@link Player} to get the shown statistics of
+     * @return {@link IStatsProfile} to display, {@code null} if the player's statistics are not loaded
+     * @since 1.2.5
+     */
+    @Nullable
+    default IStatsProfile getShownStatsProfile(Player player) {
+        return getStatsProfile(player);
+    }
+
+    /**
+     * Whether the values shown for the player are masked (not the real ones).
+     *
+     * @param uuid player's real {@link UUID}
+     * @return {@code true} while a {@link xyz.refinedev.practice.api.stats.view.StatsViewProvider} masks the player
+     * @since 1.2.5
+     */
+    default boolean isMasked(UUID uuid) {
+        return false;
+    }
+
+    /**
+     * The ping to <b>show</b> for an online player, masked the same way as {@link #getShownStatsProfile(Player)}.
+     *
+     * @param player {@link Player}
+     * @return ping in milliseconds to display
+     * @since 1.2.5
+     */
+    default int getShownPing(Player player) {
+        return 0;
+    }
+
     //TODO: Leaderboards
 }
