@@ -31,6 +31,9 @@ public interface IProfile {
      */
     UUID getUniqueId();
 
+    /** Whether the lobby profile is following another player. */
+    default boolean isFollowing() { return false; }
+
     /**
      * Get the name of the profile
      *
